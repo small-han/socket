@@ -2,12 +2,13 @@
 from socket import *
 import sys # In order to terminate the program
 import threading
+import time
 
 serverSocket = socket(AF_INET, SOCK_STREAM) 
 
 #Prepare a sever socket
 serverSocket.bind(('127.0.0.1',6789))
-serverSocket.listen(5)
+serverSocket.listen(10)
 
 def tcp(connectionSocket,addr):
     try:
@@ -23,8 +24,8 @@ def tcp(connectionSocket,addr):
         for i in range(0, len(outputdata)): 
             connectionSocket.send(outputdata[i].encode())
         connectionSocket.send("\r\n".encode())
+        connectionSocket.close()
 
-        connectionSocket.close() 
     except IOError:
         #Send response message for file not found
         connectionSocket.send(b'HTTP/1.1 404 Not Found')
